@@ -8,7 +8,14 @@
    <children>
       <ScrollPane layoutX="14.0" layoutY="79.0" prefHeight="510.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="79.0">
          <content>
-            <ListView fx:id="listViewReservadas" prefHeight="510.0" prefWidth="180.0" />
+            <ListView fx:id="listViewReservadas" prefHeight="510.0" prefWidth="180.0">
+               <contextMenu>
+                  <ContextMenu fx:id="cancelar">
+                    <items>
+                      <MenuItem fx:id="cancelaReservaItem" mnemonicParsing="false" onAction="#cancelarReserva" text="CancelarReserva" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu></ListView>
          </content></ScrollPane>
       <ScrollPane layoutX="229.0" layoutY="79.0" prefHeight="510.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="229.0" AnchorPane.topAnchor="79.0">
          <content>
@@ -16,11 +23,11 @@
          </content></ScrollPane>
       <ScrollPane layoutX="443.0" layoutY="79.0" prefHeight="510.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="443.0" AnchorPane.topAnchor="79.0">
          <content>
-            <ListView fx:id="listViewOcupadas" prefHeight="510.0" prefWidth="180.0" />
+            <ListView fx:id="listViewOcupadas" onMouseClicked="#atualizarComboBox" prefHeight="510.0" prefWidth="180.0" />
          </content></ScrollPane>
       <AnchorPane layoutX="680.0" layoutY="56.0" prefHeight="369.0" prefWidth="305.0" style="-fx-background-color: #ffffff;" AnchorPane.leftAnchor="680.0" AnchorPane.topAnchor="56.0">
          <children>
-            <Button fx:id="botaoDesocuparMesa" layoutX="94.0" layoutY="212.0" mnemonicParsing="false" onAction="#desocupar" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #555555;" text="Desocupar" textFill="WHITE" />
+            <Button fx:id="botaoDesocuparMesa" layoutX="14.0" layoutY="210.0" mnemonicParsing="false" onAction="#desocupar" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #555555;" text="Desocupar" textFill="WHITE" />
             <Separator layoutX="16.0" layoutY="249.0" prefHeight="2.0" prefWidth="274.0" />
             <Separator layoutX="16.0" layoutY="49.0" prefHeight="3.0" prefWidth="274.0" />
             <Label layoutX="16.0" layoutY="14.0" text="Mesa">

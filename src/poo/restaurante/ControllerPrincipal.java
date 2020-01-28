@@ -8,19 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerPrincipal {
-    @FXML
-    private ContextMenu contextoReserva;
 
-    @FXML
-    private MenuItem itencontext;
 
     @FXML
     private ComboBox<?> comboBoxOcupadas;
@@ -34,6 +33,13 @@ public class ControllerPrincipal {
 
     @FXML
     private ListView<Mesa> listViewReservadas;
+
+
+    @FXML
+    private ContextMenu cancelar;
+
+    @FXML
+    private MenuItem cancelaReservaItem;
 
     @FXML
     private ListView<Mesa> listViewLivres;
@@ -143,6 +149,7 @@ public class ControllerPrincipal {
         m.setStatusReservado();
         listViewReservadas.getItems().add(m);
         listViewLivres.getItems().remove(m);
+        listViewLivres.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -152,20 +159,27 @@ public class ControllerPrincipal {
         m.setStatusLivre();
         listViewLivres.getItems().add(m);
         listViewOcupadas.getItems().remove(m);
+        listViewOcupadas.getSelectionModel().clearSelection();
     }
     @FXML
     void ocupar(ActionEvent event ){
         Mesa m = listViewLivres.getSelectionModel().getSelectedItem();
-        if(m==null) return;
+        if(m==null) {
+            m = listViewReservadas.getSelectionModel().getSelectedItem();
+        }else if(m==null){
+            return;
+        }
         m.setStatusOcupado();
         listViewOcupadas.getItems().add(m);
         listViewLivres.getItems().remove(m);
+        listViewReservadas.getItems().remove(m);
+        listViewLivres.getSelectionModel().clearSelection();
+        listViewReservadas.getSelectionModel().clearSelection();
     }
     @FXML
-    public void abrirMesa(ActionEvent event) throws IOException {
+    public void visualizar(ActionEvent event) throws IOException {
 //        Stage stage1 = (Stage) botaoAbrirMesa.getScene().getWindow();
 //        stage1.close();
-
 
         FXMLLoader load = new FXMLLoader(this.getClass().getResource("view/Comanda.fxml"));
         Parent root = load.load();
@@ -184,5 +198,9 @@ public class ControllerPrincipal {
         m.setStatusReservado();
         listViewLivres.getItems().add(m);
         listViewReservadas.getItems().remove(m);
+    }
+    @FXML
+    void atualizarComboBox(MouseEvent event){
+        listViewOcupadas.getSelectionModel().getSelectedItem();
     }
 }
