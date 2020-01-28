@@ -10,12 +10,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerPrincipal {
+    @FXML
+    private ContextMenu contextoReserva;
 
+    @FXML
+    private MenuItem itencontext;
 
     @FXML
     private ComboBox<?> comboBoxOcupadas;
@@ -35,7 +40,7 @@ public class ControllerPrincipal {
 
 
 
-
+    private ObservableList<Mesa>obsMesasLivre;
     private ObservableList<Mesa> obsMesas;
     private ObservableList<Mesa> obsMesasOcupadas;
 
@@ -49,7 +54,7 @@ public class ControllerPrincipal {
     private Button botaoDesocuparMesa;
 
     @FXML
-    private Button botaoAbrirMesa;
+    private Button botaoOcuparMesa;
 
     @FXML
     private Button botaoReservarMesa;
@@ -77,8 +82,6 @@ public class ControllerPrincipal {
 
 
 
-
-
     @FXML
     public void initialize() {
         carregandoMesas();
@@ -91,6 +94,7 @@ public class ControllerPrincipal {
         Mesa mesa2 = new Mesa(2);
         Mesa mesa3 = new Mesa(3);
         Mesa mesa4 = new Mesa(4);
+        Mesa mesa5 = new Mesa(5);
 
 
 //        System.out.println("TESTES -> "+mesa1.getComanda().pedidos[0].garcom.getNome());
@@ -100,13 +104,13 @@ public class ControllerPrincipal {
         mesas.mesasLivres.add(mesa2);
         mesas.mesasLivres.add(mesa3);
         mesas.mesasLivres.add(mesa4);
-
+        mesas.mesasLivres.add(mesa5);
 
         obsMesas = FXCollections.observableArrayList(mesas.mesasLivres);
-        obsMesasOcupadas = FXCollections.observableArrayList(mesas.mesasLivres);
+       obsMesasOcupadas = FXCollections.observableArrayList(mesas.mesasOcupadas);
 
         listViewLivres.setItems(obsMesas);
-        listViewOcupadas.setItems(obsMesas);
+        listViewOcupadas.setItems(obsMesasOcupadas);
 
     }
     @FXML
@@ -133,6 +137,31 @@ public class ControllerPrincipal {
     }
 
     @FXML
+    void reservar (ActionEvent event) {
+        Mesa m = listViewLivres.getSelectionModel().getSelectedItem();
+        if (m==null) return;
+        m.setStatusReservado();
+        listViewReservadas.getItems().add(m);
+        listViewLivres.getItems().remove(m);
+    }
+
+    @FXML
+    void desocupar(ActionEvent event){
+        Mesa m = listViewOcupadas.getSelectionModel().getSelectedItem();
+        if(m==null) return;
+        m.setStatusLivre();
+        listViewLivres.getItems().add(m);
+        listViewOcupadas.getItems().remove(m);
+    }
+    @FXML
+    void ocupar(ActionEvent event ){
+        Mesa m = listViewLivres.getSelectionModel().getSelectedItem();
+        if(m==null) return;
+        m.setStatusOcupado();
+        listViewOcupadas.getItems().add(m);
+        listViewLivres.getItems().remove(m);
+    }
+    @FXML
     public void abrirMesa(ActionEvent event) throws IOException {
 //        Stage stage1 = (Stage) botaoAbrirMesa.getScene().getWindow();
 //        stage1.close();
@@ -148,5 +177,12 @@ public class ControllerPrincipal {
         stage.show();
     }
 
-
+    @FXML
+    void cancelarReserva(ActionEvent event) {
+        Mesa m = listViewReservadas.getSelectionModel().getSelectedItem();
+        if (m==null) return;
+        m.setStatusReservado();
+        listViewLivres.getItems().add(m);
+        listViewReservadas.getItems().remove(m);
+    }
 }

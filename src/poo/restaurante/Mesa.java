@@ -3,7 +3,7 @@ package poo.restaurante;
 public class Mesa {
     public Integer numeroMesa;
     private Integer numOcupantes;
-    private boolean estaLivre = true;
+    private StatusMesa status;
     private Comanda comanda = new Comanda();
     private Integer capacidade;
 
@@ -12,9 +12,9 @@ public class Mesa {
     }
 
     public void ocuparMesa(int numOcupantes) {
-        if (numOcupantes<=this.capacidade && estaLivre) {
+        if (numOcupantes<=this.capacidade && status == StatusMesa.LIVRE) {
             this.numOcupantes = numOcupantes;
-            this.estaLivre = false;
+            this.status = StatusMesa.OCUPADA;
             this.comanda = new Comanda();
         }
         else {
@@ -26,7 +26,7 @@ public class Mesa {
         Double total = comanda.calculaPreco();
         if (valorPago>=total) {
             this.numOcupantes = 0;
-            this.estaLivre = true;
+            this.status = StatusMesa.LIVRE;
             this.comanda = null;
         }
     }
@@ -45,11 +45,11 @@ public class Mesa {
     }
 
     public boolean isEstaLivre() {
-        return estaLivre;
+        return status == StatusMesa.LIVRE;
     }
 
     public void setEstaLivre(boolean estaLivre) {
-        this.estaLivre = estaLivre;
+        this.status = StatusMesa.LIVRE;
     }
 
     public Comanda getComanda() {
@@ -74,5 +74,18 @@ public class Mesa {
 
     public void setNumeroMesa(Integer numeroMesa) {
         this.numeroMesa = numeroMesa;
+    }
+    public StatusMesa getStatus() {return status;}
+
+    public void setStatusReservado() {
+        this.status = StatusMesa.RESERVADA;
+    }
+
+    public void setStatusLivre() {
+        this.status = StatusMesa.LIVRE;
+    }
+
+    public void setStatusOcupado() {
+        this.status = StatusMesa.OCUPADA;
     }
 }

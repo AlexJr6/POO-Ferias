@@ -1,6 +1,8 @@
 package poo.restaurante;
 
 public class Pedido {
+
+
     public Funcionario garcom = new Funcionario("Zé",32,"88888808");
     public Prato prato =  new Prato();
     public Integer quantidade;
